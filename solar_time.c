@@ -7,9 +7,12 @@
 /* Output format. */
 #define SOLAR_FORMAT ("%H:%M:%S")
 
-/* Longitude difference between Paris Observatory and Paris Time Zone
- * meridian, in degrees. */
-#define LON (12.663457)
+/* Longitude of Paris Time Zone reference meridian, in degrees. */
+#define REF_LON (15.0)
+
+/* Longitude of location. */
+//#define LON (2.3522) // Paris
+#define LON (8.6821) // FfM
 
 /* Time conversion factors */
 #define DEGREE_IN_TIME_SECONDS (240)
@@ -75,7 +78,7 @@ int main(int argc, char** argv) {
 
     /* Calculate local solar time in seconds. This compensates for location. */
     solar_s = clock_s + (current_eot_h * HOUR_IN_SECONDS
-                      - LON * DEGREE_IN_TIME_SECONDS
+                      - (REF_LON - LON) * DEGREE_IN_TIME_SECONDS
                       - clock_data.tm_isdst * HOUR_IN_SECONDS);
 
     /* Convert back to tm struct and output to stdout. */
